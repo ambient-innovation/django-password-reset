@@ -1,5 +1,6 @@
 import datetime
 
+from django.apps import apps
 from django.conf import settings
 from django.core import signing
 from django.core.mail import send_mail
@@ -12,11 +13,12 @@ from django.utils.decorators import method_decorator
 from django.views import generic
 from django.views.decorators.debug import sensitive_post_parameters
 
-from . import PASSWORD_RESET_SETTINGS
-
 from .forms import PasswordRecoveryForm, PasswordResetForm
 from .signals import user_recovers_password
 from .utils import get_user_model, get_username
+
+password_reset_app = apps.get_app_config('password_reset')
+PASSWORD_RESET_SETTINGS = password_reset_app.PASSWORD_RESET_SETTINGS
 
 
 class SaltMixin(object):
